@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="signup-page">
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🏏 SPORTS LEAGUE
+        </div>
+
+        <div class="nav-links">
+
+            <a href="index.html">Home</a>
+
+            <a href="login.html">Login</a>
+
+        </div>
+
+    </nav>
+
+
+    <div class="form-container">
+
+        <p class="section-small-title">
+            JOIN THE LEAGUE
+        </p>
+
+        <h2>Create Account</h2>
+
+        <p class="login-description">
+            Create your account to access the Sports League Management System.
+        </p>
+
+
+        <form onsubmit="signupUser(event)">
+
+            <label for="name">
+                Name
+            </label>
+
+            <input
+                type="text"
+                id="name"
+                placeholder="Enter your name"
+                required
+            >
+
+
+            <label for="email">
+                Email
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                required
+            >
+
+
+            <label for="password">
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Create password"
+                required
+            >
+
+
+            <button type="submit">
+                Create Account
+            </button>
+
+        </form>
+
+
+        <p class="account-text">
+
+            Already have an account?
+
+            <a href="login.html">
+                Login here
+            </a>
+
+        </p>
+
+
+        <p class="back-home">
+
+            <a href="index.html">
+                ← Back to Home
+            </a>
+
+        </p>
+
+    </div>
+
+
+    <script>
+
+        function signupUser(event) {
+
+            event.preventDefault();
+
+
+            let name =
+                document.getElementById("name").value.trim();
+
+            let email =
+                document.getElementById("email").value.trim();
+
+            let password =
+                document.getElementById("password").value;
+
+
+            let users =
+                JSON.parse(localStorage.getItem("users")) || [];
+
+
+            let existingUser =
+                users.find(user => user.email === email);
+
+
+            if (existingUser) {
+
+                alert("Account already exists. Please login.");
+
+                return;
+            }
+
+
+            users.push({
+
+                name: name,
+
+                email: email,
+
+                password: password
+
+            });
+
+
+            localStorage.setItem(
+                "users",
+                JSON.stringify(users)
+            );
+
+
+            alert("Account created successfully!");
+
+            window.location.href = "login.html";
+
+        }
+
+    </script>
+
+</body>
+
+
+</html>

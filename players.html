@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Players - Sports League</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="players-page">
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🏏 SPORTS LEAGUE
+        </div>
+
+        <div class="nav-links">
+
+            <a href="index.html">Home</a>
+            <a href="user.html">Dashboard</a>
+            <a href="teams.html">Teams</a>
+            <a href="matches.html">Matches</a>
+            <a href="results.html">Results</a>
+            <a href="standings.html">Standings</a>
+
+        </div>
+
+    </nav>
+
+
+    <div class="dashboard">
+
+        <p class="section-small-title">
+            LEAGUE MANAGEMENT
+        </p>
+
+        <h1>Sports Players</h1>
+
+        <p>
+            Manage and view all players participating in the sports league.
+        </p>
+
+
+        <!-- ADMIN SECTION -->
+
+        <div id="adminSection" class="input-container">
+
+            <h2>Add New Player</h2>
+
+            <input
+                type="text"
+                id="playerName"
+                placeholder="Enter Player Name"
+            >
+
+            <input
+                type="text"
+                id="playerTeam"
+                placeholder="Enter Team Name"
+            >
+
+            <input
+                type="number"
+                id="playerAge"
+                placeholder="Enter Age"
+            >
+
+            <button onclick="addPlayer()">
+                Add Player
+            </button>
+
+        </div>
+
+
+        <!-- PLAYER TABLE -->
+
+        <div class="table-container">
+
+            <h2>All Players</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Player ID</th>
+                        <th>Player Name</th>
+                        <th>Team</th>
+                        <th>Age</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="playerTable"></tbody>
+
+            </table>
+
+        </div>
+
+
+        <div class="page-navigation">
+
+            <a href="teams.html">
+                Teams
+            </a>
+
+            <a href="user.html">
+                User Dashboard
+            </a>
+
+            <a href="admin.html">
+                Admin Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        let loggedIn =
+            localStorage.getItem("loggedIn");
+
+
+        // Only Admin can add players
+
+        if (loggedIn !== "admin") {
+
+            document.getElementById("adminSection").style.display = "none";
+
+        }
+
+
+        let players =
+            JSON.parse(localStorage.getItem("players")) || [];
+
+
+        function addPlayer() {
+
+            let name =
+                document.getElementById("playerName").value.trim();
+
+            let team =
+                document.getElementById("playerTeam").value.trim();
+
+            let age =
+                document.getElementById("playerAge").value;
+
+
+            if (
+                name === "" ||
+                team === "" ||
+                age === ""
+            ) {
+
+                alert("Please enter all player details");
+
+                return;
+
+            }
+
+
+            players.push({
+
+                id: players.length + 1,
+
+                name: name,
+
+                team: team,
+
+                age: age
+
+            });
+
+
+            localStorage.setItem(
+                "players",
+                JSON.stringify(players)
+            );
+
+
+            document.getElementById("playerName").value = "";
+
+            document.getElementById("playerTeam").value = "";
+
+            document.getElementById("playerAge").value = "";
+
+
+            displayPlayers();
+
+        }
+
+
+        function displayPlayers() {
+
+            let table =
+                document.getElementById("playerTable");
+
+
+            table.innerHTML = "";
+
+
+            players.forEach(function(player) {
+
+                table.innerHTML += `
+
+                    <tr>
+
+                        <td>${player.id}</td>
+
+                        <td>${player.name}</td>
+
+                        <td>${player.team}</td>
+
+                        <td>${player.age}</td>
+
+                    </tr>
+
+                `;
+
+            });
+
+        }
+
+
+        displayPlayers();
+
+    </script>
+
+</body>
+
+</html>
